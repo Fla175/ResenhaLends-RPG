@@ -1,0 +1,6 @@
+pygame-ce
+colorama
+questionary
+ollama
+pick
+httpx
