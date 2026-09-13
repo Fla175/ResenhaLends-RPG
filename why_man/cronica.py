@@ -13,16 +13,38 @@ def _limpo(texto: str) -> str:
 
 
 def gerar_contexto_inicial(descricao: str, objetivo: str, nome_campanha: str) -> str:
+    """Gera contexto inicial usando IA ou fallback local."""
     mundo = descricao.strip() or "um mundo que ainda não confessou o nome"
     meta = objetivo.strip() or "sobreviver à própria história"
-    tom = narrar_local(f"{mundo} {meta}")
+    
+    # Tenta gerar contexto mais rico usando o narrador local
+    try:
+        tom = narrar_local(f"{mundo} {meta}")
+        # Se o narrador local retornar algo além do input básico, usa IA
+        if tom and len(tom) > len(f"{mundo} {meta}"):
+            aberturas = [
+                f"[MAGENTA]Antes de qualquer dado, escutem.[/] {mundo} "
+                f"[AMARELO]O que vocês acham que vieram fazer: {meta}.[/] "
+                f"{tom} Eu, o mestre, já vi o mapa. Vocês só têm as botas e a teimosia.",
+                f"[MAGENTA]Sessão zero, mas com o mundo já respirando.[/] {mundo} "
+                f"Se falharem, {meta} vira lenda de taverna. Se forem competentes, vira ferida. "
+                f"[VERDE]Hoje a mesa abre neste tom.[/] {tom}",
+                f"Eu não vou ler um livro. Vou descrever o chão. {mundo} "
+                f"[AMARELO]No horizonte, sempre: {meta}.[/] "
+                f"Quando o dado cair, lembrem que o universo desta campanha ({nome_campanha.replace('_', ' ')}) tem opiniões.",
+            ]
+            return random.choice(aberturas)
+    except Exception:
+        pass
+    
+    # Fallback para geração determinística
     aberturas = [
         f"[MAGENTA]Antes de qualquer dado, escutem.[/] {mundo} "
         f"[AMARELO]O que vocês acham que vieram fazer: {meta}.[/] "
-        f"{tom} Eu, o mestre, já vi o mapa. Vocês só têm as botas e a teimosia.",
+        f"Eu, o mestre, já vi o mapa. Vocês só têm as botas e a teimosia.",
         f"[MAGENTA]Sessão zero, mas com o mundo já respirando.[/] {mundo} "
         f"Se falharem, {meta} vira lenda de taverna. Se forem competentes, vira ferida. "
-        f"[VERDE]Hoje a mesa abre neste tom.[/] {tom}",
+        f"[VERDE]Hoje a mesa abre neste tom.[/]",
         f"Eu não vou ler um livro. Vou descrever o chão. {mundo} "
         f"[AMARELO]No horizonte, sempre: {meta}.[/] "
         f"Quando o dado cair, lembrem que o universo desta campanha ({nome_campanha.replace('_', ' ')}) tem opiniões.",
