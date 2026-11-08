@@ -11,6 +11,9 @@ namespace rpg {
 namespace domain {
 namespace entities {
 
+using rpg::domain::value_objects::Atributo;
+using rpg::domain::value_objects::Personalidade;
+
 class Personagem {
 public:
     Personagem(std::int64_t id, std::string nome)
