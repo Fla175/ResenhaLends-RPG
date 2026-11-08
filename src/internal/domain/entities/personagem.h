@@ -23,7 +23,7 @@ public:
     Atributo forca() const { return forca_; }
 
     void set_personalidade(const Personalidade& personalidade) { personalidade_ = personalidade; }
-    Personalidade personalidade() const { return personalidade_; }
+    const Personalidade& personalidade() const { return personalidade_; }
 
 private:
     std::int64_t id_;

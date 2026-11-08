@@ -1,6 +1,7 @@
 #ifndef RPG_INTERNAL_DOMAIN_VALUE_OBJECTS_PERSONALIDADE_H
 #define RPG_INTERNAL_DOMAIN_VALUE_OBJECTS_PERSONALIDADE_H
 
+#include <cstdint>
 #include <map>
 #include <string>
 #include "atributo.h"
