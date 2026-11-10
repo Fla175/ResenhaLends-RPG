@@ -4,6 +4,7 @@
 #ifndef RPG_DOMAIN_VALUE_OBJECTS_TEXTO_H
 #define RPG_DOMAIN_VALUE_OBJECTS_TEXTO_H
 
+#include <cstddef>
 #include <string>
 
 namespace rpg {

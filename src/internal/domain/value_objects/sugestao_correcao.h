@@ -5,6 +5,8 @@
 
 #include <string>
 #include <optional>
+#include <utility>
+#include "texto.h"
 
 namespace rpg {
 namespace domain {

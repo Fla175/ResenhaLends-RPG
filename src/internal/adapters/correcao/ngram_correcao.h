@@ -4,6 +4,7 @@
 #ifndef RPG_ADAPTERS_CORRECAO_NGRAM_CORRECAO_H
 #define RPG_ADAPTERS_CORRECAO_NGRAM_CORRECAO_H
 
+#include <cstdint>
 #include <string>
 #include <memory>
 #include <unordered_map>

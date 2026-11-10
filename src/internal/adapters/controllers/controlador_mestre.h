@@ -4,6 +4,7 @@
 #ifndef RPG_ADAPTERS_CONTROLE_CONTROLADOR_MESTRE_H
 #define RPG_ADAPTERS_CONTROLE_CONTROLADOR_MESTRE_H
 
+#include <cstdint>
 #include <string>
 #include <memory>
 #include "../../application/use_cases/gerar_resposta_mestre.h"

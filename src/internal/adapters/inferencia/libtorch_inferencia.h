@@ -9,12 +9,12 @@
 #include <memory>
 #include "../../application/ports/iinferencia_ia.h"
 
-// Forward declaration do tipo do LibTorch para evitar incluir torch aqui no header.
-struct TorchModel;
-
 namespace rpg {
 namespace adapters {
 namespace inferencia {
+
+// Forward declaration do tipo do LibTorch para evitar incluir torch aqui no header.
+struct TorchModel;
 
 class LibTorchInferencia : public application::ports::IInferenciaIA {
 public:
