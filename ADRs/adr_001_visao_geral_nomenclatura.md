@@ -13,13 +13,58 @@ O projeto adota padrões de arquitetura de backend comprovados — Clean Archite
 ### Clean Architecture
 As dependências fluem apenas para dentro. Camadas internas (entidades e casos de uso) não conhecem camadas externas (frameworks, banco de dados, entrega). Cada fronteira de camada é cruzada por uma interface abstrata, permitindo que os casos de uso sejam testados sem banco de dados, UI ou serviços externos.
 
+**Camadas (fluxo de dependência para dentro):**
+
+1. **Entities**: Modelos de negócio centrais, sem imports de frameworks.
+2. **Use Cases**: Regras de negócio da aplicação; orquestram entidades.
+3. **Interface Adapters**: Controladores, presenters, gateways — traduzem entre casos de uso e formatos externos.
+4. **Frameworks & Drivers**: UI, banco de dados, serviços externos — todos no anel mais externo.
+
+**Princípios-chave:**
+- Dependências apontam apenas para dentro; camadas internas não sabem nada sobre camadas externas.
+- Lógica de negócio é independente de frameworks, bancos de dados e mecanismos de entrega.
+- Toda fronteira de camada é cruzada por uma interface abstrata.
+- Testável sem UI, banco de dados ou serviços externos.
+
 ### Hexagonal Architecture (Ports and Adapters)
-O núcleo de domínio fica no centro, livre de frameworks. Ports são interfaces abstratas que definem como o núcleo interage com o mundo exterior (driving e driven). Adapters são implementações concretas desses ports (repositório em banco, adaptador REST, etc.). Isso permite trocar implementações sem tocar no núcleo e usar adapters em memória nos testes.
+O núcleo de domínio fica no centro, livre de frameworks.
+
+**Componentes:**
+- **Domain Core**: Lógica de negócio vive aqui, sem frameworks.
+- **Ports**: Interfaces abstratas que definem como o núcleo interage com o mundo exterior (ports driving — entrada, e ports driven — saída).
+- **Adapters**: Implementações concretas dos ports (repositório em banco, adaptador REST, etc.).
+
+**Benefícios:**
+- Trocar implementações sem tocar no núcleo (ex.: substituir persistência sem alterar regras de negócio).
+- Usar adapters em memória nos testes — sem Docker necessário.
+- Decisões de tecnologia adiadas para as bordas do sistema.
 
 ### Domain-Driven Design (DDD)
-* **Bounded Contexts**: cada subdomínio tem um modelo coerente e isolado; evitamos compartilhar um único modelo por todo o sistema.
-* **Ubiquitous Language**: cada termo no código corresponde ao termo usado pelos especialistas de domínio.
-* **Táticas**: Entidades, Value Objects, Aggregates, Repositories e Domain Events guiam o design tático dentro de cada contexto.
+
+**Padrões Estratégicos:**
+- **Bounded Contexts**: Cada subdomínio tem um modelo coerente e isolado; evitamos compartilhar um único modelo por todo o sistema.
+- **Context Mapping**: Define como os contextos se relacionam (Anti-Corruption Layer, Shared Kernel, Open Host Service).
+- **Ubiquitous Language**: Cada termo no código corresponde ao termo usado pelos especialistas de domínio.
+
+**Padrões Táticos:**
+- **Entidades**: Objetos com identidade estável que mudam ao longo do tempo.
+- **Value Objects**: Objetos imutáveis identificados por seus atributos.
+- **Aggregates**: Limites de consistência; apenas a raiz é acessível de fora.
+- **Repositories**: Persistem e reconstituem aggregates; abstraem o mecanismo de armazenamento.
+- **Domain Events**: Capturam coisas que aconteceram dentro do domínio; usados para coordenação entre aggregates.
+
+### Regras de Dependência e Fronteiras
+- Dependências apontam apenas para dentro.
+- Camadas internas (entidades e casos de uso) não conhecem camadas externas (frameworks, banco de dados, entrega).
+- Cada fronteira de camada é cruzada por uma interface abstrata.
+- Casos de uso importam apenas do domínio (entidades e interfaces); nunca importam de adaptadores ou infraestrutura.
+- Isso evita ciclos de dependência e vazamento de infraestrutura para o domínio.
+
+### Estratégia de Testes
+A marca de uma Clean Architecture corretamente aplicada é que todo caso de uso pode ser exercitado em um teste de unidade simples, sem banco de dados real, sem Docker e sem rede:
+- Use cases são testados com adapters em memória (in-memory) injetados através das portas abstratas.
+- Nenhuma chamada de banco de dados vaza para a camada de aplicação.
+- Testes de unidade não requerem infraestrutura externa.
 
 ## Nomenclatura de Versionamento
 
@@ -51,3 +96,4 @@ O versionamento segue o padrão:
 * Isola regras de negócio de frameworks e tecnologias externas.
 * Permite testar casos de uso com adapters em memória, sem banco de dados nem Docker.
 * Define bounded contexts claros, evitando vazamento de modelo entre subdomínios.
+* Impede ciclos de dependência entre camadas por meio de interfaces abstratas nas fronteiras.
